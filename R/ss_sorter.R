@@ -19,9 +19,10 @@ ss_sorter <- function(a_list){
   sorter <- data.frame(X1=times,V1=indices)
   sorter <- sorter[order(times),]
   sorted <- a_list
-  index<-1
-  for(i in 1:length(times)){
-    sorted[[i]]<-a_list[[sorter$V1[i]]]
+  for (i in 1:length(times)) {
+    index <- sorter$V1[i]
+    sorted[[i]] <- a_list[[index]]
+    names(sorted)[i] <- names(a_list)[index]
   }
   return(sorted)
   
