@@ -1,0 +1,12 @@
+Package: sharkeySpec
+Title: Handle and analyze SharkeySpec data
+Version: 0.0.0.9000
+Authors@R: person("Alan", "McClain", email = "mcclai54@MSU.EDU", role = c("aut", "cre"))
+Description: What the package does (one paragraph).
+Depends: R (>= 3.5.2)
+License: What license is it under?
+Encoding: UTF-8
+Imports: magrittr, tidyverse
+Suggests: minpack.lm
+LazyData: true
+RoxygenNote: 6.1.1
