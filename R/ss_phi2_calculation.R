@@ -9,10 +9,11 @@
 #'@name ss_phi2_calculation
 #'@export
 
-require(tidyverse)
-require(magrittr)
+
 
 ss_phi2_calculation <- function(ps2_data,graph=F,flashstartpoint=100,flashendpoint=200){
+  require(tidyverse)
+  require(magrittr)
   ps2_data %<>% lapply(ss_bookkeeping)
   #goal: lapply a closure over a function, with the closure creating a function that we immediately call
   #what is the purpose of the closure?

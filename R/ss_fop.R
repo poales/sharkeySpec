@@ -6,9 +6,10 @@
 #' @param graph Boolean. Reconstitutes a graph with chosen points as lines. Default F. Used to check the accuracy of the program.
 #' @name ss_fop
 #' @export
-require(tidyverse)
-require(magrittr)
+
 ss_fop <- function(ps2_data,graph=F){
+  require(tidyverse)
+  require(magrittr)
   #ugh... I don't even remember everything I'm supposed to get from this.
   #so you start with steady state, then flash and turn on farred, then get fo' from the bottom at the end
   #but I keep changing the dark duration... and I take some points with the restoration of light at the edn

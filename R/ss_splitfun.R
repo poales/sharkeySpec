@@ -7,9 +7,10 @@
 #' @name ss_splitfun 
 #' @export
 
-require(tidyverse)
-require(magrittr)
+
 ss_splitfun <- function(df, splitint=250){
+  require(tidyverse)
+  require(magrittr)
   datalist <- c()
   count <- nrow(df)/splitint
   if(count%%1 != 0){

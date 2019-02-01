@@ -10,10 +10,11 @@
 #'@name ss_read_all_folder
 #'@export
 
-require(tidyverse)
-require(magrittr)
+
 
 ss_read_all_folder <- function(location, ecspattern = "0002",ps2pattern="0001",ps1pattern="0003",foppattern="0004"){
+  require(tidyverse)
+  require(magrittr)
   setwd(location)
   file.names.ecs <- as.list(dir(location,pattern=ecspattern))
   data.ecs <- lapply(file.names.ecs, ss_read)

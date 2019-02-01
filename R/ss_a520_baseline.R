@@ -5,9 +5,10 @@
 #'@param ecs_data A list of ECS data traces
 #'@name ss_a520_baseline
 #'@export
-require(tidyverse)
-require(magrittr)
+
 ss_a520_baseline <- function(ecs_data){
+  require(tidyverse)
+  require(magrittr)
   baseline_A520 <- lapply(ecs_data,function(x) mean(x$Raw_Voltage[0:100]))
   times <- lapply(ecs_data,function(datum) mean(datum$Time[0:100]))
   baseline_A520 %<>% unlist() %>% as_tibble() %>% add_column(Time = unlist(times)) %>% rename(Baseline=value)

@@ -4,9 +4,10 @@
 #'@param a_list The data to be sorted
 #'@name ss_sorter
 #'@export
-require(tidyverse)
-require(magrittr)
+
 ss_sorter <- function(a_list){
+  require(tidyverse)
+  require(magrittr)
   #there has to be a better way to do this...
   indices <- c()
   times <- c()

@@ -9,10 +9,10 @@
 #' @name ss_bookkeeping
 #' @export
 
-require(tidyverse)
-require(magrittr)
+
 ss_bookkeeping <- function(dataframe, recalc_delta_a = F,baselineStart=80,baselineEnd=99){
-  
+  require(tidyverse)
+  require(magrittr)
   if(ncol(dataframe)==4){
     dataframe %<>% set_colnames(c("Time","Raw_Voltage","Ref","DeltaA"))
   } else if(ncol(dataframe)==3){

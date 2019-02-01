@@ -15,11 +15,11 @@
 #' @name ss_ecs_fit_all
 #' @export
 
-require(tidyverse)
-require(magrittr)
-require(minpack.lm)
+
 ss_ecs_fit_all <- function(ecs_list, recalc_delta_a = F, graph = F,linFitCount=5, nonlinFitCount=35,remake=F,baselineStart=70,baselineEnd=99,abs520=F,linadj=T){
-  
+  require(tidyverse)
+  require(magrittr)
+  require(minpack.lm)
   ecs_list <- ss_sorter(ecs_list)
   alldat <- lapply(ecs_list,function(x) ss_ecs_fit(dataframe=x,recalc_delta_a = recalc_delta_a,graph=graph,linFitCount=linFitCount,nonlinFitCount=nonlinFitCount,remake=remake,baselineStart=baselineStart,baselineEnd=baselineEnd,abs520=abs520,linadj=linadj))
   
