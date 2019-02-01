@@ -16,7 +16,8 @@
 #' @export
 
 
-
+require(tidyverse)
+require(magrittr)
 ss_ecs_fit <- function(dataframe, recalc_delta_a = F, graph=F, linFitCount=5, nonlinFitCount=35, remake=F,baselineStart=50,baselineEnd=99,abs520=F,linadj=T){
   require(tidyverse)
   require(magrittr)

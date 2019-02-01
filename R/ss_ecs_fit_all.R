@@ -15,6 +15,8 @@
 #' @name ss_ecs_fit_all
 #' @export
 
+require(tidyverse)
+require(magrittr)
 ss_ecs_fit_all <- function(ecs_list, recalc_delta_a = F, graph = F,linFitCount=5, nonlinFitCount=35,remake=F,baselineStart=70,baselineEnd=99,abs520=F,linadj=T){
   
   ecs_list <- ss_sorter(ecs_list)

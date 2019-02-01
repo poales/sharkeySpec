@@ -9,7 +9,8 @@
 #' @name ss_bookkeeping
 #' @export
 
-
+require(tidyverse)
+require(magrittr)
 ss_bookkeeping <- function(dataframe, recalc_delta_a = F,baselineStart=80,baselineEnd=99){
   
   if(ncol(dataframe)==4){
