@@ -11,7 +11,8 @@
 #' @param baseline Boolean. Provide baseline A520 measurements.
 #' @name ss_full_workup
 #' @export 
-
+require(tidyverse)
+require(magrittr)
 ss_full_workup <- function(geLoc,ssLoc,dirklen,satflashlen,timeoffset,graph=F,remake=F,baseline=F){
   require(tidyverse)
   require(magrittr)

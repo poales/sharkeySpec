@@ -7,6 +7,9 @@
 #' @name ss_runsetter
 #' @export
 
+require(tidyverse)
+require(magrittr)
+
 ss_runsetter<- function(df,threshhold=2){
   #scan through the dataframe and look for gaps
   #set gaps to be the break in runs with an ID column

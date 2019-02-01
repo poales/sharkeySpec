@@ -2,7 +2,8 @@
 #'I don't think I need this any more but I'm keeping it around
 #'Will give it namespace but not export it...
 #'@name ss_phi2_calculation_bu
-
+require(tidyverse)
+require(magrittr)
 ss_phi2_calculation_bu <- function(ps2_data,graph=F){
   ps2_data %<>% lapply(ss_bookkeeping)
   nm <- seq(1:length(ps2_split))
