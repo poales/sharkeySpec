@@ -80,17 +80,17 @@ ss_ecs_fit <- function(dataframe, recalc_delta_a = F, graph=F, linFitCount=5, no
     #coef(nonlin)[1]
     annotations <- data.frame(Time=c(.05,.15),DeltaA=c(.5*(max(dat.mid$DeltaA)-min(dat.mid$DeltaA)),.5*(max(dat.mid$DeltaA)-min(dat.mid$DeltaA))),txt=c(paste0("Principal = ",format(coef(nonlin)[1],digits=4)),paste0("Velocity = ",format(coef(lin)[2],digits=4))))
 
-    myplot <- ggplot2::ggplot()+ggplot2::geom_point(hurt,mapping=aes(x=Time,y=DeltaA,col="Nonlin Fit (PMF)"))+
-      ggplot2::geom_line(hurt,mapping=aes(x=Time,y=DeltaA,col="Nonlin Fit (PMF)"))+
-      ggplot2::geom_point(dat.mid,mapping=aes(x=Time,y=DeltaA,col="Actual"))+
-      ggplot2::geom_point(hurt2,mapping=aes(x=Time,y=DeltaA,col="Linfit (Rate)"))+
-      ggplot2::geom_line(hurt2,mapping=aes(x=Time,y=DeltaA,col="Linfit (Rate)"))+
-      ggplot2::geom_text(annotations,mapping=aes(x=Time,y=DeltaA,label=txt))+
+    myplot <- ggplot2::ggplot()+ggplot2::geom_point(hurt,mapping=ggplot2::aes(x=Time,y=DeltaA,col="Nonlin Fit (PMF)"))+
+      ggplot2::geom_line(hurt,mapping=ggplot2::aes(x=Time,y=DeltaA,col="Nonlin Fit (PMF)"))+
+      ggplot2::geom_point(dat.mid,mapping=ggplot2::aes(x=Time,y=DeltaA,col="Actual"))+
+      ggplot2::geom_point(hurt2,mapping=ggplot2::aes(x=Time,y=DeltaA,col="Linfit (Rate)"))+
+      ggplot2::geom_line(hurt2,mapping=ggplot2::aes(x=Time,y=DeltaA,col="Linfit (Rate)"))+
+      ggplot2::geom_text(annotations,mapping=ggplot2::aes(x=Time,y=DeltaA,label=txt))+
       ggplot2::scale_color_discrete()+
       ggplot2::ggtitle("Fit curve and original")
     if(remake){
-      myplot <- myplot+ ggplot2::geom_point(dfbu,mapping=aes(x=Time-dfbu$Time[100],y=DeltaA,col="Unfit graph"))+
-        ggplot2::geom_point(postmovements,mapping=aes(x=Time-postmovements$Time[100],y=DeltaA,col="postmove"))
+      myplot <- myplot+ ggplot2::geom_point(dfbu,mapping=ggplot2::aes(x=Time-dfbu$Time[100],y=DeltaA,col="Unfit graph"))+
+        ggplot2::geom_point(postmovements,mapping=ggplot2::aes(x=Time-postmovements$Time[100],y=DeltaA,col="postmove"))
     }
     return(list(these_coefs,myplot))
   } else{

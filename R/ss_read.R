@@ -9,5 +9,5 @@ ss_read <- function(location){
   #require(magrittr)
   #require(tidyverse)
   dat <- readr::read_delim(location,delim = "\t",col_names = F)
-  return(mutate_all(dat,as.numeric))
+  return(dplyr::mutate_all(dat,as.numeric))
 }

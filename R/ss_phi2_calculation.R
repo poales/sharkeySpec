@@ -37,7 +37,7 @@ ss_phi2_calculation <- function(ps2_data,graph=F,flashstartpoint=100,flashendpoi
     time <- df$Time[flashstartpoint]
     graphmaker <- function(graph){
       if(graph){
-        mygraph <- ggplot2::ggplot(df,mapping=aes(x=Time,y=Raw_Voltage))+
+        mygraph <- ggplot2::ggplot(df,mapping=ggplot2::aes(x=Time,y=Raw_Voltage))+
           ggplot2::geom_point()+
           ggplot2::geom_hline(yintercept = fm)+
           ggplot2::geom_hline(yintercept=fs)+

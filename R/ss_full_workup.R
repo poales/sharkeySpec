@@ -36,7 +36,7 @@ ss_full_workup <- function(geLoc,ssLoc,dirklen,satflashlen,timeoffset,graph=F,re
     ecsgraphs <- lapply(ecsdat,function(x) x[[2]])
     ecsdat <- lapply(ecsdat,function(x) x[[1]])
   }
-  fitdat <- rbind_all(ecsdat)
+  fitdat <- dplyr::rbind_all(ecsdat)
   fitdat <- fitdat[order(fitdat$Time),]
 
   if(length(ssdat$ps2[[1]]$X1)%%satflashlen != 0 | length(ssdat$ps2[[1]]$X1) < satflashlen){
@@ -59,7 +59,7 @@ ss_full_workup <- function(geLoc,ssLoc,dirklen,satflashlen,timeoffset,graph=F,re
       FUN= function(x) reshape2::melt(x,id.vars="Time")
     )
   )
-  myplot <- ggplot2::ggplot(alldat,mapping=aes(x=Time,y=value,col=variable))+
+  myplot <- ggplot2::ggplot(alldat,mapping=ggplot2::aes(x=Time,y=value,col=variable))+
     ggplot2::geom_point()+
     ggplot2::facet_wrap(~variable,ncol=1,scales="free_y")
   if(graph){
