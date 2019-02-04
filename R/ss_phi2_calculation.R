@@ -12,9 +12,9 @@
 
 
 ss_phi2_calculation <- function(ps2_data,graph=F,flashstartpoint=100,flashendpoint=200){
-  require(tidyverse)
-  require(magrittr)
-  ps2_data %<>% lapply(ss_bookkeeping)
+  #require(tidyverse)
+  #require(magrittr)
+  ps2_data <- lapply(ps2_data, ss_bookkeeping)
   #goal: lapply a closure over a function, with the closure creating a function that we immediately call
   #what is the purpose of the closure?
   #what will the function do?
@@ -37,11 +37,11 @@ ss_phi2_calculation <- function(ps2_data,graph=F,flashstartpoint=100,flashendpoi
     time <- df$Time[flashstartpoint]
     graphmaker <- function(graph){
       if(graph){
-        mygraph <- ggplot(df,mapping=aes(x=Time,y=Raw_Voltage))+
-          geom_point()+
-          geom_hline(yintercept = fm)+
-          geom_hline(yintercept=fs)+
-          ggtitle(paste("Fm =",fm,"Fs =",fs))
+        mygraph <- ggplot2::ggplot(df,mapping=aes(x=Time,y=Raw_Voltage))+
+          ggplot2::geom_point()+
+          ggplot2::geom_hline(yintercept = fm)+
+          ggplot2::geom_hline(yintercept=fs)+
+          ggplot2::ggtitle(paste("Fm =",fm,"Fs =",fs))
         return(list(list(Phi2=phi2,Time=time,Fm=fm,Fs=fs),mygraph))
       } else{
         return(list(Phi2=phi2,Time=time,Fm=fm,Fs=fs))
@@ -51,8 +51,8 @@ ss_phi2_calculation <- function(ps2_data,graph=F,flashstartpoint=100,flashendpoi
   }
   alldat <- lapply(ps2_data,function(x) closure(x)(graph=graph))
   if(graph){
-    return(list(bind_rows(lapply(alldat,function(x) x[[1]])),lapply(alldat,function(x) x[[2]])))
+    return(list(dplyr::bind_rows(lapply(alldat,function(x) x[[1]])),lapply(alldat,function(x) x[[2]])))
   }else{
-    return(bind_rows(alldat))
+    return(dplyr::bind_rows(alldat))
   }
 }

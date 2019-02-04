@@ -1,5 +1,5 @@
 #' Attempt to work up Fo' data
-#' 
+#'
 #' Given a list of PS2 data, generate Fm', fs, phi2, and fo'
 #' Assumes a lot about the shape of your curve.
 #' @param ps2_data A list of PS2 traces
@@ -17,9 +17,9 @@ ss_fop <- function(ps2_data,graph=F){
   #it's necessary to tell the instrument to turn off farred and turn the light back on
   #so it can't be fixed from the script side
   #to get the data proper here, I think I need to do something similar to how I take data for Phi2
-  
+
   #start with boilerplate code from the ps2 calc above
-  ps2_data %<>% lapply(ss_bookkeeping)
+  ps2_data <- lapply(ps2_data, ss_bookkeeping)
   getfm <- function(df){
     #take the max value - try to get it sloping up or sloping down
     maxindex <- which.max(df$Raw_Voltage)
@@ -37,16 +37,16 @@ ss_fop <- function(ps2_data,graph=F){
   getfo <- function(df){
     #take the min value
     minindex <- which.max(df$Raw_Voltage)
-    
+
     return(mean(df$Raw_Voltage[(maxindex-4):(maxindex+1)]))
-    #be really cautious here - I can't do the same +5-5 thing I do with fm, because the 
+    #be really cautious here - I can't do the same +5-5 thing I do with fm, because the
     #length of the dark period is very variable
     #so, average backwards - should be higher, so I cut down on the number of averaged points.
   }
   fo <- unlist(lapply(ps2_data,getfo))
-  phi2 <- bind_cols(PhiPS2 = phi2,Time=time,Fs=fs, Fm=fm,Fo=fo)
+  phi2 <- dplyr::bind_cols(PhiPS2 = phi2,Time=time,Fs=fs, Fm=fm,Fo=fo)
   if(graph){
-    graphs <- lapply(ps2_data, function(x) ggplot(x,mapping=aes(x=Time,y=Raw_Voltage))+geom_point())
+    graphs <- lapply(ps2_data, function(x) ggplot2::ggplot(x,mapping=aes(x=Time,y=Raw_Voltage))+ggplot2::geom_point())
     return(list(phi2,graphs))
   }else{
     return(phi2)

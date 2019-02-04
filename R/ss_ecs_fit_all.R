@@ -1,5 +1,5 @@
 #' Vectorized fitting of ECS data.
-#' 
+#'
 #' Functionally applies ecs_fit for a vectorized set of data
 #' Recommended application: ss_read_all_folder() %>% ss_splitfun() %>% (function(x) x$ecs) %>% ss_ecs_fit_all()
 #' @param ecs_list vector of ecs data to analyze
@@ -17,16 +17,16 @@
 
 
 ss_ecs_fit_all <- function(ecs_list, recalc_delta_a = F, graph = F,linFitCount=5, nonlinFitCount=35,remake=F,baselineStart=70,baselineEnd=99,abs520=F,linadj=T){
-  require(tidyverse)
-  require(magrittr)
-  require(minpack.lm)
+  #require(tidyverse)
+  #require(magrittr)
+  #require(minpack.lm)
   ecs_list <- ss_sorter(ecs_list)
   alldat <- lapply(ecs_list,function(x) ss_ecs_fit(dataframe=x,recalc_delta_a = recalc_delta_a,graph=graph,linFitCount=linFitCount,nonlinFitCount=nonlinFitCount,remake=remake,baselineStart=baselineStart,baselineEnd=baselineEnd,abs520=abs520,linadj=linadj))
-  
-  
-  
+
+
+
   if(!graph){
-    times <- lapply(alldat,function(x) x[5]) %>% unlist()
+    times <- unlist(lapply(alldat,function(x) x[5]))
     times <- unlist(times)
     conductivity <- lapply(alldat,function(x) x[4])
     conductivity <- unlist(conductivity)
@@ -35,7 +35,7 @@ ss_ecs_fit_all <- function(ecs_list, recalc_delta_a = F, graph = F,linFitCount=5
     pmfs <- lapply(alldat,function(x) x[1])
     pmfs <- unlist(pmfs)
     if(abs520){
-      a520s <- lapply(alldat,function(x) x[6]) %>% unlist()
+      a520s <- unlist(lapply(alldat,function(x) x[6]))
       velocity <- data.frame("Time"=times,"Velocity" = velocity, "PMF" = pmfs, "Conductivity" = conductivity, "Baseline" = a520s)
     }else{
       velocity <- data.frame("Time"=times,"Velocity" = velocity, "PMF" = pmfs, "Conductivity" = conductivity)
@@ -43,22 +43,22 @@ ss_ecs_fit_all <- function(ecs_list, recalc_delta_a = F, graph = F,linFitCount=5
     velocity<- velocity[order(velocity$Time),]
     return(velocity)
   }else{
-    
+
     ecscoefs <- lapply(alldat,function(list) list[[1]])
-    times <- lapply(ecscoefs,function(x) x[5]) %>% unlist()
+    times <- unlist(lapply(ecscoefs,function(x) x[5]))
     times <- unlist(times)
     allgraphs <- lapply(alldat,function(list) list[[2]])
-    
+
     velocity <- lapply(ecscoefs,function(datum) datum[2])
     velocity <- unlist(velocity)
-    
+
     conductivity <- lapply(ecscoefs,function(x) x[4])
     conductivity <- unlist(conductivity)
-    
+
     pmfs <- lapply(ecscoefs,function(datum) datum[1])
     pmfs <- unlist(pmfs)
     if(abs520){
-      a520s <- lapply(ecscoefs,function(x) x[6]) %>% unlist()
+      a520s <- unlist(lapply(ecscoefs,function(x) x[6]))
       velocity <- data.frame("Time"=times,"Velocity" = velocity, "PMF" = pmfs, "Conductivity" = conductivity, "Baseline" = a520s)
     }else{
       velocity <- data.frame("Time"=times,"Velocity" = velocity, "PMF" = pmfs, "Conductivity" = conductivity)
@@ -67,5 +67,5 @@ ss_ecs_fit_all <- function(ecs_list, recalc_delta_a = F, graph = F,linFitCount=5
     velocity<- velocity[order(velocity$Time),]
     return(list(velocity,allgraphs))
   }
-  
+
 }

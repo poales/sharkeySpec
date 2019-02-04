@@ -1,5 +1,5 @@
 #' General usability function for raw data
-#' 
+#'
 #' From a single trace data table, returns a data table with useful column names.
 #' Optionally recalculates DeltaA if you feel it is necessary.
 #' @param dataframe The data to be treated.
@@ -11,24 +11,24 @@
 
 
 ss_bookkeeping <- function(dataframe, recalc_delta_a = F,baselineStart=80,baselineEnd=99){
-  require(tidyverse)
-  require(magrittr)
+  #require(tidyverse)
+  #require(magrittr)
   if(ncol(dataframe)==4){
-    dataframe %<>% set_colnames(c("Time","Raw_Voltage","Ref","DeltaA"))
+    dataframe <- magrittr::set_colnames(dataframe,c("Time","Raw_Voltage","Ref","DeltaA"))
   } else if(ncol(dataframe)==3){
-    dataframe %<>% set_colnames(c("Time","Raw_Voltage","DeltaA"))
+    dataframe <- magrittr::set_colnames(dataframe,c("Time","Raw_Voltage","DeltaA"))
   } else if(ncol(dataframe==5)){
-    dataframe %<>% set_colnames(c("Time","Raw_Voltage","Ref","DeltaA","run"))
+    dataframe <- magrittr::set_colnames(dataframe,c("Time","Raw_Voltage","Ref","DeltaA","run"))
   } else if(!("DeltaA" %in% colnames(dataframe)) | recalc_delta_a & !("Raw_Voltage" %in% colnames(dataframe))){
     cat("Error: dataframe has an invalid number of columns")
     return()
   }
-  
+
   if(!("DeltaA" %in% colnames(dataframe))){
-    dataframe %<>% add_column(DeltaA=rep(-10,length(dataframe[,1])))
+    dataframe <- tibble::add_column(dataframe,DeltaA=rep(-10,length(dataframe[,1])))
   }
-  
-  
+
+
   #first issue: make sure there is a deltaA column.
   if(dataframe$DeltaA[1]==-10 | recalc_delta_a){
     #DeltaA = -log(I/Io) = -log(sample/reference) where reference is a constant
@@ -39,5 +39,5 @@ ss_bookkeeping <- function(dataframe, recalc_delta_a = F,baselineStart=80,baseli
     #data.frame(holder=holder,DeltaA = dataframe$DeltaA,Raw_Voltage=dataframe$Raw_Voltage) %>% View()
   }
   return(dataframe)
-  
+
 }

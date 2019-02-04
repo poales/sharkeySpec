@@ -6,17 +6,17 @@
 #'@export
 
 ss_sorter <- function(a_list){
-  require(tidyverse)
-  require(magrittr)
+  #require(tidyverse)
+  #require(magrittr)
   #there has to be a better way to do this...
   indices <- c()
   times <- c()
   index <- 1
   for(df in a_list){
-    indices %<>% rbind(index)
+    indices <- rbind(indices,index)
     index <- index+1
-    time = unlist(df[150,1])
-    times %<>% rbind(time)
+    time <- unlist(df[150,1])
+    times <- rbind(times,time)
   }
   sorter <- data.frame(X1=times,V1=indices)
   sorter <- sorter[order(times),]
@@ -27,5 +27,5 @@ ss_sorter <- function(a_list){
     names(sorted)[i] <- names(a_list)[index]
   }
   return(sorted)
-  
+
 }

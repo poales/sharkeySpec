@@ -7,12 +7,13 @@
 #'@export
 
 ss_a520_baseline <- function(ecs_data){
-  require(tidyverse)
-  require(magrittr)
   baseline_A520 <- lapply(ecs_data,function(x) mean(x$Raw_Voltage[0:100]))
   times <- lapply(ecs_data,function(datum) mean(datum$Time[0:100]))
-  baseline_A520 %<>% unlist() %>% as_tibble() %>% add_column(Time = unlist(times)) %>% rename(Baseline=value)
+  t <- tibble::as_tibble(unlist(baseline_A520))
+  t <- tibble::add_column(t,Time=unlist(times))
+  t <- rename(t,Baseline=value)
+  #baseline_A520 %<>% unlist() %>% as_tibble() %>% add_column(Time = unlist(times)) %>% rename(Baseline=value)
   baseline_A520 <- baseline_A520[order(baseline_A520$Time),]
   return(baseline_A520)
-  
+
 }

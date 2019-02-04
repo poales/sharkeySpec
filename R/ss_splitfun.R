@@ -1,16 +1,16 @@
 #' A more rigid application of ss_runsetter
-#' 
+#'
 #' Accepts a dataframe and creates a list of dataframes divided into even chunks based on splitint
 #' Useful for appended homogenous traces
 #' @param df The dataframe to split
 #' @param splitint The length of each individual measurement
-#' @name ss_splitfun 
+#' @name ss_splitfun
 #' @export
 
 
 ss_splitfun <- function(df, splitint=250){
-  require(tidyverse)
-  require(magrittr)
+  #require(tidyverse)
+  #require(magrittr)
   datalist <- c()
   count <- nrow(df)/splitint
   if(count%%1 != 0){
