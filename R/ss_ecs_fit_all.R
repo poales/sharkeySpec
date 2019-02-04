@@ -19,32 +19,21 @@
 ss_ecs_fit_all <- function(ecs_list, recalc_delta_a = F, graph = F,linFitCount=5, nonlinFitCount=35,remake=F,baselineStart=70,baselineEnd=99,abs520=F,linadj=T){
   ecs_list <- ss_sorter(ecs_list) #just in case they're out of order, we need to sort first. Otherwise the graphs will not match up.
   alldat <- lapply(ecs_list,function(x) ss_ecs_fit(dataframe=x,recalc_delta_a = recalc_delta_a,graph=graph,linFitCount=linFitCount,nonlinFitCount=nonlinFitCount,remake=remake,baselineStart=baselineStart,baselineEnd=baselineEnd,abs520=abs520,linadj=linadj))
-
-  if(!graph){ #we must check if we want to graph first, as the shape of data from ecs_fit will be different.
-    if(abs520){
-      velo <- dplyr::bind_rows(lapply(alldat, function(x) c(x[5], x[4], x[2], x[1], x[6])))
-      velocity <- dplyr::rename(velo, "Velocity" = `vH+`, "Conductivity" = gH)
-    }else{
-      velo <- dplyr::bind_rows(lapply(alldat, function(x) c(x[5], x[4], x[2], x[1])))
-      velocity <- dplyr::rename(velo, "Velocity" = `vH+`, "Conductivity" = gH)
-    }
-    velocity<- velocity[order(velocity$Time),]
-    return(velocity)
-  }else{
-
-    ecscoefs <- lapply(alldat,function(list) list[[1]])
-    allgraphs <- lapply(alldat,function(list) list[[2]])
-
-    if(abs520){
-      velo <- dplyr::bind_rows(lapply(ecscoefs, function(x) c(x[5], x[4], x[2], x[1], x[6])))
-      velocity <- dplyr::rename(velo, "Velocity" = `vH+`, "Conductivity" = gH)
-    }else{
-      velo <- dplyr::bind_rows(lapply(ecscoefs, function(x) c(x[5], x[4], x[2], x[1])))
-      velocity <- dplyr::rename(velo, "Velocity" = `vH+`, "Conductivity" = gH)
-    }
-    #velocity <- data.frame("Velocity" = velocity, "PMF" = pmfs, "Time"=times,"Conductivity" = conductivity)
-    velocity<- velocity[order(velocity$Time),]
-    return(list(velocity,allgraphs))
+  if(graph){
+    allgraphs <- unlist(alldat, c(FALSE,TRUE)) #lapply(alldat,function(list) list[[2]])
+    alldat <- unlist(alldat, c(TRUE,FALSE)) #lapply(alldat,function(list) list[[1]])
   }
-
+  if(abs520){
+    velo <- dplyr::bind_rows(lapply(alldat, function(x) c(x[5], x[4], x[2], x[1], x[6])))
+    velocity <- dplyr::rename(velo, "Velocity" = `vH+`, "Conductivity" = gH)
+  }else{
+    velo <- dplyr::bind_rows(lapply(alldat, function(x) c(x[5], x[4], x[2], x[1])))
+    velocity <- dplyr::rename(velo, "Velocity" = `vH+`, "Conductivity" = gH)
+  }
+  velocity<- velocity[order(velocity$Time),]
+  if(graph){
+    return(list(velocity,allgraphs))
+  } else {
+    return(velocity)
+  }
 }
