@@ -26,42 +26,26 @@ ss_ecs_fit_all <- function(ecs_list, recalc_delta_a = F, graph = F,linFitCount=5
 
 
   if(!graph){
-    times <- unlist(lapply(alldat,function(x) x[5]))
-    times <- unlist(times)
-    conductivity <- lapply(alldat,function(x) x[4])
-    conductivity <- unlist(conductivity)
-    velocity <- lapply(alldat,function(x) x[2])
-    velocity <- unlist(velocity)
-    pmfs <- lapply(alldat,function(x) x[1])
-    pmfs <- unlist(pmfs)
     if(abs520){
-      a520s <- unlist(lapply(alldat,function(x) x[6]))
-      velocity <- data.frame("Time"=times,"Velocity" = velocity, "PMF" = pmfs, "Conductivity" = conductivity, "Baseline" = a520s)
+      velo <- dplyr::bind_rows(lapply(alldat, function(x) c(x[5], x[4], x[2], x[1], x[6])))
+      velocity <- dplyr::rename(velo, "Velocity" = `vH+`, "Conductivity" = gH)
     }else{
-      velocity <- data.frame("Time"=times,"Velocity" = velocity, "PMF" = pmfs, "Conductivity" = conductivity)
+      velo <- dplyr::bind_rows(lapply(alldat, function(x) c(x[5], x[4], x[2], x[1])))
+      velocity <- dplyr::rename(velo, "Velocity" = `vH+`, "Conductivity" = gH)
     }
     velocity<- velocity[order(velocity$Time),]
     return(velocity)
   }else{
 
     ecscoefs <- lapply(alldat,function(list) list[[1]])
-    times <- unlist(lapply(ecscoefs,function(x) x[5]))
-    times <- unlist(times)
     allgraphs <- lapply(alldat,function(list) list[[2]])
 
-    velocity <- lapply(ecscoefs,function(datum) datum[2])
-    velocity <- unlist(velocity)
-
-    conductivity <- lapply(ecscoefs,function(x) x[4])
-    conductivity <- unlist(conductivity)
-
-    pmfs <- lapply(ecscoefs,function(datum) datum[1])
-    pmfs <- unlist(pmfs)
     if(abs520){
-      a520s <- unlist(lapply(ecscoefs,function(x) x[6]))
-      velocity <- data.frame("Time"=times,"Velocity" = velocity, "PMF" = pmfs, "Conductivity" = conductivity, "Baseline" = a520s)
+      velo <- dplyr::bind_rows(lapply(ecscoefs, function(x) c(x[5], x[4], x[2], x[1], x[6])))
+      velocity <- dplyr::rename(velo, "Velocity" = `vH+`, "Conductivity" = gH)
     }else{
-      velocity <- data.frame("Time"=times,"Velocity" = velocity, "PMF" = pmfs, "Conductivity" = conductivity)
+      velo <- dplyr::bind_rows(lapply(ecscoefs, function(x) c(x[5], x[4], x[2], x[1])))
+      velocity <- dplyr::rename(velo, "Velocity" = `vH+`, "Conductivity" = gH)
     }
     #velocity <- data.frame("Velocity" = velocity, "PMF" = pmfs, "Time"=times,"Conductivity" = conductivity)
     velocity<- velocity[order(velocity$Time),]
