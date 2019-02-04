@@ -17,15 +17,10 @@
 
 
 ss_ecs_fit_all <- function(ecs_list, recalc_delta_a = F, graph = F,linFitCount=5, nonlinFitCount=35,remake=F,baselineStart=70,baselineEnd=99,abs520=F,linadj=T){
-  #require(tidyverse)
-  #require(magrittr)
-  #require(minpack.lm)
-  ecs_list <- ss_sorter(ecs_list)
+  ecs_list <- ss_sorter(ecs_list) #just in case they're out of order, we need to sort first. Otherwise the graphs will not match up.
   alldat <- lapply(ecs_list,function(x) ss_ecs_fit(dataframe=x,recalc_delta_a = recalc_delta_a,graph=graph,linFitCount=linFitCount,nonlinFitCount=nonlinFitCount,remake=remake,baselineStart=baselineStart,baselineEnd=baselineEnd,abs520=abs520,linadj=linadj))
 
-
-
-  if(!graph){
+  if(!graph){ #we must check if we want to graph first, as the shape of data from ecs_fit will be different.
     if(abs520){
       velo <- dplyr::bind_rows(lapply(alldat, function(x) c(x[5], x[4], x[2], x[1], x[6])))
       velocity <- dplyr::rename(velo, "Velocity" = `vH+`, "Conductivity" = gH)
