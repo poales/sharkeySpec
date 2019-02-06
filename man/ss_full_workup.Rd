@@ -5,7 +5,7 @@
 \title{Narrow function that attempts to correlate gas exchange and SharkeySpec data.}
 \usage{
 ss_full_workup(geLoc, ssLoc, dirklen, satflashlen, timeoffset, graph = F,
-  remake = F, baseline = F)
+  remake = F, baseline = F, recalc = T)
 }
 \arguments{
 \item{geLoc}{location of gas exchange data file.}

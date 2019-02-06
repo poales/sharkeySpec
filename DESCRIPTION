@@ -6,7 +6,7 @@ Description: Works up data from the combined fluorescence and gas exchange data 
 Depends: R (>= 3.5.2)
 License: What license is it under?
 Encoding: UTF-8
-Imports: magrittr, tidyverse
+Imports: tidyverse
 Suggests: minpack.lm
 LazyData: true
 RoxygenNote: 6.1.1

@@ -13,9 +13,6 @@
 #' @export
 
 ss_full_workup <- function(geLoc,ssLoc,dirklen,satflashlen,timeoffset,graph=F,remake=F,baseline=F,recalc=T){
-  #require(tidyverse)
-  #require(magrittr)
-  #require(reshape2)
   library(readLicorData)
   gedat <- dplyr::rename(dplyr::select(licorData(geLoc),"A","elapsed"),Time=elapsed)
 

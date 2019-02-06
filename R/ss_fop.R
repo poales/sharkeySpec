@@ -8,8 +8,6 @@
 #' @export
 
 ss_fop <- function(ps2_data,graph=F){
-  require(tidyverse)
-  require(magrittr)
   #ugh... I don't even remember everything I'm supposed to get from this.
   #so you start with steady state, then flash and turn on farred, then get fo' from the bottom at the end
   #but I keep changing the dark duration... and I take some points with the restoration of light at the edn
@@ -46,7 +44,7 @@ ss_fop <- function(ps2_data,graph=F){
   fo <- unlist(lapply(ps2_data,getfo))
   phi2 <- dplyr::bind_cols(PhiPS2 = phi2,Time=time,Fs=fs, Fm=fm,Fo=fo)
   if(graph){
-    graphs <- lapply(ps2_data, function(x) ggplot2::ggplot(x,mapping=aes(x=Time,y=Raw_Voltage))+ggplot2::geom_point())
+    graphs <- lapply(ps2_data, function(x) ggplot2::ggplot(x,mapping=ggplot2::aes(x=Time,y=Raw_Voltage))+ggplot2::geom_point())
     return(list(phi2,graphs))
   }else{
     return(phi2)

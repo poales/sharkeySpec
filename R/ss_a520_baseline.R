@@ -12,7 +12,6 @@ ss_a520_baseline <- function(ecs_data){
   t <- tibble::as_tibble(unlist(baseline_A520))
   t <- tibble::add_column(t,Time=unlist(times))
   t <- rename(t,Baseline=value)
-  #baseline_A520 %<>% unlist() %>% as_tibble() %>% add_column(Time = unlist(times)) %>% rename(Baseline=value)
   baseline_A520 <- baseline_A520[order(baseline_A520$Time),]
   return(baseline_A520)
 
