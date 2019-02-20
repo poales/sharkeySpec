@@ -32,7 +32,7 @@ ss_phi2_calculation <- function(ps2_data,graph=F,flashstartpoint=100,flashendpoi
   }
   closure <- function(df){
     fm <- getfm(df)
-    fs <- mean(df$Raw_Voltage[1:flashstartpoint])
+    fs <- mean(df$Raw_Voltage[1:(flashstartpoint-1)])
     phi2 <- 1-(fs/fm)
     time <- df$Time[flashstartpoint]
     graphmaker <- function(graph){
