@@ -24,7 +24,7 @@ ss_runsetter<- function(df,threshhold=2){
     }
     return(df)
   }
-  df <- tibble::add_column(ID=1)
+  df <- tibble::add_column(df,ID=1)
   df <- TDIFF(df)
   return(df)
 
