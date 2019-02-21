@@ -61,8 +61,8 @@ ss_ecs_fit <- function(dataframe, recalc_delta_a = F, graph=F, linFitCount=5, no
     }, error = function(e){
       print("There was an error: The nonlinear fit failed. Make sure you are sending the right points, and that DeltaA has been calculated correctly (try ss_bookkeeping(recalc_delta_a=T)")
       print(e)
-      error_coefs <- c(0,0,0)
-      return(error_coefs)
+      error_fit <- c(0,0,0)
+      return(error_fit)
     }
   )
   #do a second fit, a linear fit to get the velocity.
@@ -79,12 +79,12 @@ ss_ecs_fit <- function(dataframe, recalc_delta_a = F, graph=F, linFitCount=5, no
   }
 
   if(graph){
-    newY= predict(nonlin,list(x.dat.nl=dat.mid$Time))
+    newY= coefs[1] * exp(dat.mid$Time * -1 * coefs[2]) + coefs[3]
     hurt <- data.frame(DeltaA=newY,Time=dat.mid$Time)
     newY2 = predict(lin)
     hurt2 <- data.frame(DeltaA = newY2, Time= x.dat.nl)
     #coef(nonlin)[1]
-    annotations <- data.frame(Time=c(.05,.15),DeltaA=c(.5*(max(dat.mid$DeltaA)-min(dat.mid$DeltaA)),.5*(max(dat.mid$DeltaA)-min(dat.mid$DeltaA))),txt=c(paste0("Principal = ",format(coef(nonlin)[1],digits=4)),paste0("Velocity = ",format(coef(lin)[2],digits=4))))
+    annotations <- data.frame(Time=c(.05,.15),DeltaA=c(.5*(max(dat.mid$DeltaA)-min(dat.mid$DeltaA)),.5*(max(dat.mid$DeltaA)-min(dat.mid$DeltaA))),txt=c(paste0("Principal = ",format(coefs[1],digits=4)),paste0("Velocity = ",format(coef(lin)[2],digits=4))))
 
     myplot <- ggplot2::ggplot()+ggplot2::geom_point(hurt,mapping=ggplot2::aes(x=Time,y=DeltaA,col="Nonlin Fit (PMF)"))+
       ggplot2::geom_line(hurt,mapping=ggplot2::aes(x=Time,y=DeltaA,col="Nonlin Fit (PMF)"))+

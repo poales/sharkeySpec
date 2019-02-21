@@ -20,8 +20,8 @@ ss_ecs_fit_all <- function(ecs_list, recalc_delta_a = F, graph = F,linFitCount=5
   ecs_list <- ss_sorter(ecs_list) #just in case they're out of order, we need to sort first. Otherwise the graphs will not match up.
   alldat <- lapply(ecs_list,function(x) ss_ecs_fit(dataframe=x,recalc_delta_a = recalc_delta_a,graph=graph,linFitCount=linFitCount,nonlinFitCount=nonlinFitCount,remake=remake,baselineStart=baselineStart,baselineEnd=baselineEnd,abs520=abs520,linadj=linadj))
   if(graph){
-    allgraphs <- unlist(alldat, c(FALSE,TRUE)) #lapply(alldat,function(list) list[[2]])
-    alldat <- unlist(alldat, c(TRUE,FALSE)) #lapply(alldat,function(list) list[[1]])
+    allgraphs <- lapply(alldat,function(list) list[[2]])
+    alldat <- lapply(alldat,function(list) list[[1]])
   }
   if(abs520){
     velo <- dplyr::bind_rows(lapply(alldat, function(x) c(x[5], x[4], x[2], x[1], x[6])))
