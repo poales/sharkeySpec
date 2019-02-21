@@ -27,9 +27,7 @@ ss_ecs_fit <- function(dataframe, recalc_delta_a = F, graph=F, linFitCount=5, no
   a520 <- mean(dataframe$Raw_Voltage[1:99])
   #Do a linear regression for the baseline and apply it.
   #First, set time = 0
-  if(remake){
-    dfbu <- dataframe
-  }
+  dfbu <- dataframe
   dataframe$Time <- dataframe$Time - dataframe$Time[1]
   if(linadj){
     dat.y <- dataframe$DeltaA[baselineStart:baselineEnd]
@@ -57,8 +55,16 @@ ss_ecs_fit <- function(dataframe, recalc_delta_a = F, graph=F, linFitCount=5, no
   y.dat.nl <- dat.mid$DeltaA[1:nonlinFitCount]
 
   #fit 1: used to fit PMF + cond
-  nonlin <- nlsLM(y.dat.nl ~ principal * exp(x.dat.nl * -1 * rate) + constant,start=c(principal=.07,rate=50, constant = 0),upper=(c(1,150,.01)),lower=c(0,0,-.01),control=nls.lm.control(maxiter=1000),trace = F)
-
+  coefs <- tryCatch({
+    coef(nlsLM(y.dat.nl ~ principal * exp(x.dat.nl * -1 * rate) + constant,start=c(principal=.07,rate=50, constant = 0),upper=(c(1,150,.01)),lower=c(0,0,-.01),control=nls.lm.control(maxiter=1000),trace = F))
+    
+    }, error = function(e){
+      print("There was an error: The nonlinear fit failed. Make sure you are sending the right points, and that DeltaA has been calculated correctly (try ss_bookkeeping(recalc_delta_a=T)")
+      print(e)
+      error_coefs <- c(0,0,0)
+      return(error_coefs)
+    }
+  )
   #do a second fit, a linear fit to get the velocity.
   x.dat.nl <- dat.mid$Time[1:linFitCount]
   y.dat.nl <- dat.mid$DeltaA[1:linFitCount]
@@ -67,9 +73,9 @@ ss_ecs_fit <- function(dataframe, recalc_delta_a = F, graph=F, linFitCount=5, no
   #coef(nonlin)
   #nonlin2 <- nlsLM(y.dat.nl ~ coef(nonlin)[1] * exp(x.dat.nl * rate) + constant,start=c(rate=-20, constant = 0),control=nls.lm.control(maxiter=1000),trace = F)
   if(abs520){
-    these_coefs <- dplyr::bind_cols("PMF"=coef(nonlin)[1],"vH+" = -1*coef(lin)[2],constant=coef(nonlin)[3], gH=coef(nonlin)[2],Time=TheTime,Baseline=a520)
+    these_coefs <- dplyr::bind_cols("PMF"=coefs[1],"vH+" = -1*coef(lin)[2],constant=coefs[3], gH=coefs[2],Time=TheTime,Baseline=a520)
   }else{
-    these_coefs <- dplyr::bind_cols("PMF"=coef(nonlin)[1],"vH+" = -1*coef(lin)[2],constant=coef(nonlin)[3], gH=coef(nonlin)[2],Time=TheTime)
+    these_coefs <- dplyr::bind_cols("PMF"=coefs[1],"vH+" = -1*coef(lin)[2],constant=coefs[3], gH=coefs[2],Time=TheTime)
   }
 
   if(graph){
