@@ -14,6 +14,9 @@
 ss_phi2_calculation <- function(ps2_data,graph=F,flashstartpoint=100,flashendpoint=200){
   #require(tidyverse)
   #require(magrittr)
+  if(is.data.frame(ps2_data)){
+    ps2_data <- list(ps2_data)
+  }
   ps2_data <- lapply(ps2_data, ss_bookkeeping)
   #goal: lapply a closure over a function, with the closure creating a function that we immediately call
   #what is the purpose of the closure?
