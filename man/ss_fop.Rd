@@ -4,7 +4,8 @@
 \alias{ss_fop}
 \title{Attempt to work up Fo' data}
 \usage{
-ss_fop(ps2_data, graph = F)
+ss_fop(ps2_data, graph = F, flashstartpoint = 100,
+  flashendpoint = 190)
 }
 \arguments{
 \item{ps2_data}{A list of PS2 traces}

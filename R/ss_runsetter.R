@@ -1,9 +1,11 @@
 #' A narrow function to read through an appended dataset and attempt to automatically split it up.
 #'
-#' Use on appended data files where multiple measurements are made in one file. Will create an "ID" column for each individual measurement, as determined by time threshhold.
-#' When the difference in time is greater than the provided threshhold it will decide that it is a new measurement.
+#' Use on appended data files where multiple measurements are made in one file. Will create an "ID" column for each individual measurement, as determined by threshhold.
+#' When the difference in the chosen column is greater than the provided threshhold it will decide that it is a new measurement.
 #' @param df The data table (singular) to analyze
-#' @param threshhold The difference in time that is to be considered a new measurement.
+#' @param threshhold The difference in the chosen column that is to be considered a new measurement.
+#' @param aslist When FALSE, returns a dataframe with an ID column that distinguishes separate measurements. When TRUE, returns the same but divided into a list, with one element per measurement.
+#' @param column The chosen column to study for differences in threshhold. Defaults to "Time," used by me to differentiate different measurements taken in the same folder but separated by time.
 #' @name ss_runsetter
 #' @export
 
