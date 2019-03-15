@@ -32,7 +32,7 @@ ss_phi2_calculation <- function(ps2_data,graph=F,flashstartpoint=100,flashendpoi
     }else if (maxindex >(length(subset)-15)){
       maxindex <- (length(subset)-15)
     }
-    return(mean(df$Raw_Voltage[(maxindex-5):(maxindex+5)]))
+    return(mean(subset[(maxindex-5):(maxindex+5)]))
   }
   closure <- function(df){
     fm <- getfm(df)
