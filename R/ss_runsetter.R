@@ -9,15 +9,20 @@
 
 
 
-ss_runsetter<- function(df,threshhold=2,aslist = FALSE){
+ss_runsetter<- function(df,threshhold=2,aslist = FALSE,column = "Time"){
   #scan through the dataframe and look for gaps
   #set gaps to be the break in runs with an ID column
   #first test for a time column - if none exist, send the df thru bookkeeping
-  if(!("Time" %in% colnames(df))){
-    df <- ss_bookkeeping(df)
+  if(!(column %in% colnames(df))){
+    cat("Error setting runs: Chosen column name not in df")
+    return("")
+  }
+  if("ID" %in% colnames(df)){
+    cat("Error setting runs: ID column already extant in df")
+    return("")
   }
   TDIFF <- function(df){
-    diff <- df$Time[-1]-df$Time[-length(df$Time)]
+    diff <- df[column][-1,]-df[column][-length(df[column]),]
     changes <- which(diff>threshhold | diff<(-1*threshhold))
     for(i in 1:length(changes)){
       df$ID[(changes[i]+1):length(df$ID)] <- df$ID[(changes[i]+1):length(df$ID)]+1
