@@ -9,7 +9,7 @@
 
 
 
-ss_runsetter<- function(df,threshhold=2){
+ss_runsetter<- function(df,threshhold=2,aslist = FALSE){
   #scan through the dataframe and look for gaps
   #set gaps to be the break in runs with an ID column
   #first test for a time column - if none exist, send the df thru bookkeeping
@@ -26,6 +26,14 @@ ss_runsetter<- function(df,threshhold=2){
   }
   df <- tibble::add_column(df,ID=1)
   df <- TDIFF(df)
+  if(aslist){
+    mylist <- list()
+    for(i in unique(df$ID)){
+      mylist[[i]] <- filter(df,df$ID==i)
+    }
+    df <- mylist
+    #df <- lapply(df,function(x) select(x,-ID))
+  }
   return(df)
 
 }
