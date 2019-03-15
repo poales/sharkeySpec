@@ -25,11 +25,12 @@ ss_phi2_calculation <- function(ps2_data,graph=F,flashstartpoint=100,flashendpoi
   #the closure will create an environment where we save fm and fs
   getfm <- function(df){
     #take the max value - try to get it sloping up or sloping down
-    maxindex <- which.max(df$Raw_Voltage[flashstartpoint:flashendpoint])+flashstartpoint-1
-    if (maxindex<(flashstartpoint+15)){
-      maxindex <- flashstartpoint+15
-    }else if (maxindex >(flashendpoint-15)){
-      maxindex <- (flashendpoint-15)
+    subset <- df$Raw_Voltage[flashstartpoint:flashendpoint]
+    maxindex <- which.max(subset)
+    if (maxindex<15){
+      maxindex <- 15
+    }else if (maxindex >(length(subset)-15)){
+      maxindex <- (length(subset)-15)
     }
     return(mean(df$Raw_Voltage[(maxindex-5):(maxindex+5)]))
   }
