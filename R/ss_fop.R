@@ -7,7 +7,7 @@
 #' @name ss_fop
 #' @export
 
-ss_fop <- function(ps2_data,graph=F,flashstartpoint=100,flashendpoint=190){
+ss_fop <- function(ps2_data,graph=F,flashstartpoint=100,flashendpoint=190,terminalpts = NULL,lightterminal=NULL){
   #ugh... I don't even remember everything I'm supposed to get from this.
   #so you start with steady state, then flash and turn on farred, then get fo' from the bottom at the end
   #but I keep changing the dark duration... and I take some points with the restoration of light at the edn
@@ -35,7 +35,11 @@ ss_fop <- function(ps2_data,graph=F,flashstartpoint=100,flashendpoint=190){
   
   getfo <- function(df){
     #take the min value
-    
+    if(!is.null(terminalpts) & !is.null(lightterminal)){
+      lmt <- nrow(df) - lightterminal -1
+      lms <- lmt - terminalpts+1
+      return(mean(df$Raw_Voltage[lms:lmt]))
+    }
     minindex <- which.min(df$Raw_Voltage)
 
     return(mean(df$Raw_Voltage[(minindex-4):(minindex+1)]))
