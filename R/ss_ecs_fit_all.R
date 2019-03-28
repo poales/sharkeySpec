@@ -22,6 +22,9 @@ ss_ecs_fit_all <- function(ecs_list, recalc_delta_a = F, graph = F,linFitCount=5
   if(graph){
     allgraphs <- lapply(alldat,function(list) list[[2]])
     alldat <- lapply(alldat,function(list) list[[1]])
+    for(i in 1:length(allgraphs)){
+      allgraphs[i][[1]] <- allgraphs[i][[1]] + labs(subtitle = paste("Fit number",i))
+    }
   }
   if(abs520){
     velo <- dplyr::bind_rows(lapply(alldat, function(x) c(x[5], x[4], x[2], x[1], x[6])))
