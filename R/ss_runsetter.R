@@ -36,7 +36,7 @@ ss_runsetter<- function(df,threshhold=2,aslist = FALSE,column = "Time"){
   if(aslist){
     mylist <- list()
     for(i in unique(df$ID)){
-      mylist[[i]] <- filter(df,df$ID==i)
+      mylist[[i]] <- dplyr::filter(df,df$ID==i)
     }
     df <- mylist
     #df <- lapply(df,function(x) select(x,-ID))
