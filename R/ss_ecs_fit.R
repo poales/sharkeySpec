@@ -17,14 +17,14 @@
 
 
 
-ss_ecs_fit <- function(dataframe, recalc_delta_a = F, graph=F, linFitCount=5, nonlinFitCount=35, remake=F,baselineStart=50,baselineEnd=99,abs520=F,linadj=T){
+ss_ecs_fit <- function(dataframe, recalc_delta_a = F, graph=F, linFitCount=5, nonlinFitCount=35, remake=F,baselineStart=50,baselineEnd=99,abs520=F,linadj=T,dirkstart = 100){
   #require(tidyverse)
   #require(magrittr)
   require(minpack.lm)
   #bookkeeping: rename the items in the dataframe
   dataframe <- ss_bookkeeping(dataframe,recalc_delta_a,baselineStart=baselineStart,baselineEnd=baselineEnd)
-  TheTime <- dataframe$Time[100]
-  a520 <- mean(dataframe$Raw_Voltage[1:99])
+  TheTime <- dataframe$Time[dirkstart]
+  a520 <- mean(dataframe$Raw_Voltage[1:(dirkstart-1)])
   #Do a linear regression for the baseline and apply it.
   #First, set time = 0
   dfbu <- dataframe
@@ -46,11 +46,11 @@ ss_ecs_fit <- function(dataframe, recalc_delta_a = F, graph=F, linFitCount=5, no
     postmovements <- dataframe
   }
   #clip middle
-  dat.mid <- dataframe[100:150,]
+  dat.mid <- dataframe[dirkstart:(dirkstart+100),]
   #reset time to zero.  This is really important since we have no time offset.
   dat.mid$Time <- dat.mid$Time - dat.mid$Time[1]
-  dat.mid$DeltaA[1] <- mean(dataframe$DeltaA[81:100])
-  dataframe$DeltaA[[100]] <- dat.mid$DeltaA[1]
+  dat.mid$DeltaA[1] <- mean(dataframe$DeltaA[(baselineEnd-20):baselineEnd])
+  dataframe$DeltaA[[dirkstart]] <- dat.mid$DeltaA[1]
   x.dat.nl <- dat.mid$Time[1:nonlinFitCount]
   y.dat.nl <- dat.mid$DeltaA[1:nonlinFitCount]
 
