@@ -95,8 +95,8 @@ ss_ecs_fit <- function(dataframe, recalc_delta_a = F, graph=F, linFitCount=5, no
       ggplot2::scale_color_discrete()+
       ggplot2::ggtitle("Fit curve and original")
     if(remake){
-      myplot <- myplot+ ggplot2::geom_point(dfbu,mapping=ggplot2::aes(x=Time-dfbu$Time[100],y=DeltaA,col="Unfit graph"))+
-        ggplot2::geom_point(postmovements,mapping=ggplot2::aes(x=Time-postmovements$Time[100],y=DeltaA,col="postmove"))
+      myplot <- myplot+ ggplot2::geom_point(dfbu,mapping=ggplot2::aes(x=Time-TheTime,y=DeltaA,col="Unfit graph"))+
+        ggplot2::geom_point(postmovements,mapping=ggplot2::aes(x=Time-TheTime,y=DeltaA,col="postmove"))
     }
     return(list(these_coefs,myplot))
   } else{
