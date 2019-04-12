@@ -56,7 +56,7 @@ ss_ecs_fit <- function(dataframe, recalc_delta_a = F, graph=F, linFitCount=5, no
 
   #fit 1: used to fit PMF + cond
   coefs <- tryCatch({
-    coef(nlsLM(y.dat.nl ~ principal * exp(x.dat.nl * -1 * rate) + constant,start=c(principal=.07,rate=50, constant = 0),upper=(c(1,150,.01)),lower=c(0,0,-.01),control=nls.lm.control(maxiter=1000),trace = F))
+    coef(nlsLM(y.dat.nl ~ principal * exp(x.dat.nl * -1 * rate) + constant,start=c(principal=.07,rate=50, constant = 0),upper=(c(1,150,.01)),lower=c(0,0,-.01),control=nls.lm.control(maxiter=1000),trace = F),weights=wfct(1-x.dat.nl))
     
     }, error = function(e){
       print("There was an error: The nonlinear fit failed. Make sure you are sending the right points, and that DeltaA has been calculated correctly (try ss_bookkeeping(recalc_delta_a=T)")
