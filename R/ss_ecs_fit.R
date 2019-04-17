@@ -68,7 +68,7 @@ ss_ecs_fit <- function(dataframe, recalc_delta_a = F, graph=F, linFitCount=5, no
   #do a second fit, a linear fit to get the velocity.
   x.dat.nl <- dat.mid$Time[1:linFitCount]
   y.dat.nl <- dat.mid$DeltaA[1:linFitCount]
-  lin <- lm(formula = y.dat.nl ~ x.dat.nl)
+  lin <- lm(formula = y.dat.nl ~ x.dat.nl,weights=c(1000000,rep(1,linFitCount-1)))
   #coef(lin)
   #coef(nonlin)
   #nonlin2 <- nlsLM(y.dat.nl ~ coef(nonlin)[1] * exp(x.dat.nl * rate) + constant,start=c(rate=-20, constant = 0),control=nls.lm.control(maxiter=1000),trace = F)
