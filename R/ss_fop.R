@@ -7,18 +7,12 @@
 #' @name ss_fop
 #' @export
 
-ss_fop <- function(ps2_data,graph=F,flashstartpoint=100,flashendpoint=190,terminalpts = NULL,lightterminal=NULL){
-  #ugh... I don't even remember everything I'm supposed to get from this.
-  #so you start with steady state, then flash and turn on farred, then get fo' from the bottom at the end
-  #but I keep changing the dark duration... and I take some points with the restoration of light at the edn
-  #so I can't just take the last couple points
-  #it's necessary to tell the instrument to turn off farred and turn the light back on
-  #so it can't be fixed from the script side
-  #to get the data proper here, I think I need to do something similar to how I take data for Phi2
+ss_fop <- function(ps2_data,graph=F, fsend = 100,flashstartpoint=100,flashendpoint=190,terminalpts = NULL,lightterminal=NULL){
+
   if(is.data.frame(ps2_data)){
     ps2_data <- list(ps2_data)
   }
-  #start with boilerplate code from the ps2 calc above
+  #start with boilerplate code from the ps2 calc 
   ps2_data <- lapply(ps2_data, ss_bookkeeping)
   
   getfm <- function(df){
@@ -49,7 +43,7 @@ ss_fop <- function(ps2_data,graph=F,flashstartpoint=100,flashendpoint=190,termin
   }
   closure <- function(df){
     fm <- getfm(df)
-    fs <- mean(df$Raw_Voltage[1:(flashstartpoint-1)])
+    fs <- mean(df$Raw_Voltage[1:(fsend-1)])
     fo <- getfo(df)
     phi2 <- 1-(fs/fm)
     time <- df$Time[flashstartpoint]
