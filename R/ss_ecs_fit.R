@@ -5,13 +5,14 @@
 #' @param dataframe Single trace ECS data point.
 #' @param recalc_delta_a Do you wish to recalculate DeltaA? Calls ss_bookkeeping
 #' @param graph Boolean. Recreates the trace with fitting visualized. A list of graphs is returned.
-#' @param linFitCount Number of points used for linear fitting for vH+.
-#' @param nonlinFitCount Number of points used for nonlinear fitting for pmf and gH+.
+#' @param linFitCount Integer. Number of points used for linear fitting for vH+.
+#' @param nonlinFitCount Integer. Number of points used for nonlinear fitting for pmf and gH+.
 #' @param remake Boolean. Improves the detail of recreated graph. Data is untransformed.
-#' @param baselineStart Baseline location for recalculating deltaA
-#' @param baselineEnd Baseline location for recalculating DeltaA
-#' @param abs520 Would you like automatic calculation of baseline 520nm absorbance?
+#' @param baselineStart Integer. Data point startpoint for recalculating deltaA
+#' @param baselineEnd Integer. Data point endpoint for recalculating DeltaA
+#' @param abs520 Boolean. Would you like automatic calculation of baseline 520nm absorbance?
 #' @param linadj Boolean. Attempts to correct for signal drift by straightening out non-DIRK part of the trace
+#' @param dirkstart Integer. The data point count of the last illuminated point.
 #' @name ss_ecs_fit
 #' @export
 
