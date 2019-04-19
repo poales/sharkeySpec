@@ -85,7 +85,7 @@ ss_ecs_fit <- function(dataframe, recalc_delta_a = F, graph=F, linFitCount=5, no
     newY2 = predict(lin)
     hurt2 <- data.frame(DeltaA = newY2, Time= x.dat.nl)
     #coef(nonlin)[1]
-    annotations <- data.frame(Time=c(.05,.15),DeltaA=c(.5*(max(dat.mid$DeltaA)-min(dat.mid$DeltaA)),.5*(max(dat.mid$DeltaA)-min(dat.mid$DeltaA))),txt=c(paste0("Principal = ",format(coefs[1],digits=4)),paste0("Velocity = ",format(coef(lin)[2],digits=4))))
+    annotations <- data.frame(Time=c(.05,.15),DeltaA=c(.5*(max(dat.mid$DeltaA)-min(dat.mid$DeltaA)),.75*(max(dat.mid$DeltaA)-min(dat.mid$DeltaA))),txt=c(paste0("Principal = ",format(coefs[1],digits=4)),paste0("Velocity = ",format(coef(lin)[2],digits=4))))
 
     myplot <- ggplot2::ggplot()+ggplot2::geom_point(hurt,mapping=ggplot2::aes(x=Time,y=DeltaA,col="Nonlin Fit (PMF)"))+
       ggplot2::geom_line(hurt,mapping=ggplot2::aes(x=Time,y=DeltaA,col="Nonlin Fit (PMF)"))+
