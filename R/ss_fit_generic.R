@@ -1,3 +1,4 @@
+#ss_fit_generic
 #' Performs fitting of ECS traces
 #'
 #' Given a single trace, generates vH+, gH+, ECSt, and optionally A520 baseline.
@@ -36,9 +37,9 @@ ss_ecs_fit <- function(dataframe, recalc_delta_a = F, graph=F, linFitCount=5, no
     linfit.temp <- lm(dat.y ~ dat.x)
     #predict(linfit.temp,list(dataframe$Time = dataframe$Time))
     dataframe$DeltaA <- dataframe$DeltaA - predict(linfit.temp,list(dat.x=dataframe$Time))
-
+    
   }
-
+  
   #now that the linear regression is applied, move the data up so minimum = 0
   dataframe$DeltaA <- dataframe$DeltaA - min(dataframe$DeltaA)
   #this part would be unnecessary if I would just use a constant at the end instead of counting on the bottom being zero
@@ -54,18 +55,17 @@ ss_ecs_fit <- function(dataframe, recalc_delta_a = F, graph=F, linFitCount=5, no
   dataframe$DeltaA[[dirkstart]] <- dat.mid$DeltaA[1]
   x.dat.nl <- dat.mid$Time[1:nonlinFitCount]
   y.dat.nl <- dat.mid$DeltaA[1:nonlinFitCount]
-  #make a reasonable estimate for pmf
-  pmfguess <- dat.mid$DeltaA[1]
+  
   #fit 1: used to fit PMF + cond
   coefs <- tryCatch({
-    coef(nlsLM(y.dat.nl ~ principal * exp(x.dat.nl * -1 * rate) + constant,start=c(principal=pmfguess,rate=50, constant = 0),upper=(c(1,10000,.01)),lower=c(0,0,-.01),control=nls.lm.control(maxiter=1000),trace = F,weights=c(1000000,rep(1,nonlinFitCount-1))))
+    coef(nlsLM(y.dat.nl ~ principal * exp(x.dat.nl * -1 * rate) + constant,start=c(principal=.015,rate=50, constant = 0),upper=(c(1,500,.02)),lower=c(0,0,-.01),control=nls.lm.control(maxiter=1000),trace = F,weights=c(1000000,rep(1,nonlinFitCount-1))))
     
-    }, error = function(e){
-      print("There was an error: The nonlinear fit failed. Make sure you are sending the right points, and that DeltaA has been calculated correctly (try ss_bookkeeping(recalc_delta_a=T)")
-      print(e)
-      error_fit <- c(0,0,0)
-      return(error_fit)
-    }
+  }, error = function(e){
+    print("There was an error: The nonlinear fit failed. Make sure you are sending the right points, and that DeltaA has been calculated correctly (try ss_bookkeeping(recalc_delta_a=T)")
+    print(e)
+    error_fit <- c(0,0,0)
+    return(error_fit)
+  }
   )
   #do a second fit, a linear fit to get the velocity.
   x.dat.l <- dat.mid$Time[1:linFitCount]
@@ -79,7 +79,7 @@ ss_ecs_fit <- function(dataframe, recalc_delta_a = F, graph=F, linFitCount=5, no
   }else{
     these_coefs <- dplyr::bind_cols("PMF"=coefs[1],"vH+" = -1*coef(lin)[2],constant=coefs[3], gH=coefs[2],Time=TheTime)
   }
-
+  
   if(graph){
     newY= coefs[1] * exp(dat.mid$Time * -1 * coefs[2]) + coefs[3]
     hurt <- data.frame(DeltaA=newY,Time=dat.mid$Time)
@@ -87,7 +87,7 @@ ss_ecs_fit <- function(dataframe, recalc_delta_a = F, graph=F, linFitCount=5, no
     hurt2 <- data.frame(DeltaA = newY2, Time= x.dat.l)
     #coef(nonlin)[1]
     annotations <- data.frame(Time=c(.05,.15),DeltaA=c(.5*(max(dat.mid$DeltaA)-min(dat.mid$DeltaA)),.75*(max(dat.mid$DeltaA)-min(dat.mid$DeltaA))),txt=c(paste0("Principal = ",format(coefs[1],digits=4)),paste0("Velocity = ",format(coef(lin)[2],digits=4))))
-
+    
     myplot <- ggplot2::ggplot()+ggplot2::geom_point(hurt,mapping=ggplot2::aes(x=Time,y=DeltaA,col="Nonlin Fit (PMF)"))+
       ggplot2::geom_line(hurt,mapping=ggplot2::aes(x=Time,y=DeltaA,col="Nonlin Fit (PMF)"))+
       ggplot2::geom_point(dat.mid,mapping=ggplot2::aes(x=Time,y=DeltaA,col="Actual"))+
@@ -97,10 +97,13 @@ ss_ecs_fit <- function(dataframe, recalc_delta_a = F, graph=F, linFitCount=5, no
       ggplot2::scale_color_discrete()+
       ggplot2::ggtitle("Fit curve and original")
     if(remake){
-      myplot <- myplot+ ggplot2::geom_point(postmovements,mapping=ggplot2::aes(x=Time-postmovements$Time[dirkstart],y=DeltaA,col="postmove"))
+      myplot <- myplot+ ggplot2::geom_point(dfbu,mapping=ggplot2::aes(x=Time-TheTime,y=DeltaA,col="Unfit graph"))+
+        ggplot2::geom_point(postmovements,mapping=ggplot2::aes(x=Time-postmovements$Time[dirkstart],y=DeltaA,col="postmove"))
     }
     return(list(these_coefs,myplot))
   } else{
     return(these_coefs)
   }
 }
+
+
