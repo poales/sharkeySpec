@@ -6,6 +6,6 @@ Features vectorized functions for reading, aggregating, and fitting ECS, PS2, an
 
 To install, run the following code:
 
-library(devtools)
+install.packages("devtools")
 
-install_github("poales/sharkeySpec")
+devtools::install_github("poales/sharkeySpec")
