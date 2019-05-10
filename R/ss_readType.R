@@ -7,7 +7,7 @@
 ss_readType <- function(location,pattern){
   file.names <- as.list(dir(location,pattern=pattern))
   data <- lapply(file.names, ss_read)
-  file.names <- sub(pattern="(.*?)\\.dat(.*)000.*$",replacement = "\\1 \\2",x=file.names)
+  file.names <- trimws(sub(pattern="(.*?)\\.dat(.*)000.*$",replacement = "\\1 \\2",x=file.names))
   names(data) <- file.names
   data <- tibble::set_tidy_names(data)
 }
