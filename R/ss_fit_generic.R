@@ -1,5 +1,5 @@
 #ss_fit_generic
-#' Performs fitting of ECS traces
+#' Performs fitting of generic decays.
 #'
 #' Given a single trace, generates vH+, gH+, ECSt, and optionally A520 baseline.
 #' Uses minpack.lm for fitting

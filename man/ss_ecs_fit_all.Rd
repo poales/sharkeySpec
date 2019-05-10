@@ -6,7 +6,8 @@
 \usage{
 ss_ecs_fit_all(ecs_list, recalc_delta_a = F, graph = F,
   linFitCount = 5, nonlinFitCount = 35, remake = F,
-  baselineStart = 70, baselineEnd = 99, abs520 = F, linadj = T)
+  baselineStart = 70, baselineEnd = 99, abs520 = F, linadj = T,
+  dirkstart = 100)
 }
 \arguments{
 \item{ecs_list}{vector of ecs data to analyze}
@@ -28,6 +29,8 @@ ss_ecs_fit_all(ecs_list, recalc_delta_a = F, graph = F,
 \item{abs520}{Would you like automatic calculation of baseline 520nm absorbance?}
 
 \item{linadj}{Boolean. Attempts to correct for signal drift by straightening out non-DIRK part of the trace}
+
+\item{dirkstart}{Integer. The last illuminated data point. Default: 100.}
 }
 \description{
 Functionally applies ecs_fit for a vectorized set of data

@@ -5,7 +5,7 @@
 \title{Calculate Phi2 from PS2 traces}
 \usage{
 ss_phi2_calculation(ps2_data, graph = F, flashstartpoint = 100,
-  flashendpoint = 200)
+  flashendpoint = 200, spikeomit = 10)
 }
 \arguments{
 \item{ps2_data}{The list of traces to calculate data from}
@@ -15,6 +15,8 @@ ss_phi2_calculation(ps2_data, graph = F, flashstartpoint = 100,
 \item{flashstartpoint}{The data point at which the saturating flash begins. Default: 100}
 
 \item{flashendpoint}{The data point at which the saturating flash ends. Default: 200}
+
+\item{spikeomit}{The script will ignore <<num>> data points after the start of the flash so as not to fit spikes. Default: 10}
 }
 \description{
 Vectorized function. Apply it to a list of traces.

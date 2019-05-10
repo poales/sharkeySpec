@@ -6,7 +6,9 @@
 #'@param graph Boolean. Will create a graph of the traces with lines drawn for Fm' and Fs. Used to double-check that the data is being automatically calculated correctly
 #'@param flashstartpoint The data point at which the saturating flash begins. Default: 100
 #'@param flashendpoint The data point at which the saturating flash ends. Default: 200
+#'@param spikeomit The script will ignore <<num>> data points after the start of the flash so as not to fit spikes. Default: 10
 #'@name ss_phi2_calculation
+#'
 #'@export
 
 

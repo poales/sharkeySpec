@@ -12,6 +12,7 @@
 #' @param baselineEnd Baseline location for recalculating DeltaA
 #' @param abs520 Would you like automatic calculation of baseline 520nm absorbance?
 #' @param linadj Boolean. Attempts to correct for signal drift by straightening out non-DIRK part of the trace
+#' @param dirkstart Integer. The last illuminated data point. Default: 100.
 #' @name ss_ecs_fit_all
 #' @export
 

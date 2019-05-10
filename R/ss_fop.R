@@ -4,10 +4,15 @@
 #' Assumes a lot about the shape of your curve.
 #' @param ps2_data A list of PS2 traces
 #' @param graph Boolean. Reconstitutes a graph with chosen points as lines. Default F. Used to check the accuracy of the program.
+#' @param fsend Integer. The last data point to be considered "Fs." Default 100
+#' @param flashstartpoint Integer. The data point start of the saturation flash. Default 101
+#' @param flashendpoint Integer. The terminal Fm' point. Default 190
+#' @param terminalpts Integer. The number of points at the end of the trace during which far-red and actinic are both turned off. Default NULL. Only does something if lightterminal is also turned on.
+#' @param lightterminal Integer. The number of points at the end of the trace during with actinic is turned on. Default NULL. Only does something if terminalpts is also provided.
 #' @name ss_fop
 #' @export
 
-ss_fop <- function(ps2_data,graph=F, fsend = 100,flashstartpoint=100,flashendpoint=190,terminalpts = NULL,lightterminal=NULL){
+ss_fop <- function(ps2_data,graph=F, fsend = 100,flashstartpoint=101,flashendpoint=190,terminalpts = NULL,lightterminal=NULL){
 
   if(is.data.frame(ps2_data)){
     ps2_data <- list(ps2_data)

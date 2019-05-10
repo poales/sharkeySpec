@@ -4,13 +4,23 @@
 \alias{ss_fop}
 \title{Attempt to work up Fo' data}
 \usage{
-ss_fop(ps2_data, graph = F, flashstartpoint = 100,
-  flashendpoint = 190)
+ss_fop(ps2_data, graph = F, fsend = 100, flashstartpoint = 101,
+  flashendpoint = 190, terminalpts = NULL, lightterminal = NULL)
 }
 \arguments{
 \item{ps2_data}{A list of PS2 traces}
 
 \item{graph}{Boolean. Reconstitutes a graph with chosen points as lines. Default F. Used to check the accuracy of the program.}
+
+\item{fsend}{Integer. The last data point to be considered "Fs." Default 100}
+
+\item{flashstartpoint}{Integer. The data point start of the saturation flash. Default 101}
+
+\item{flashendpoint}{Integer. The terminal Fm' point. Default 190}
+
+\item{terminalpts}{Integer. The number of points at the end of the trace during which far-red and actinic are both turned off. Default NULL. Only does something if lightterminal is also turned on.}
+
+\item{lightterminal}{Integer. The number of points at the end of the trace during with actinic is turned on. Default NULL. Only does something if terminalpts is also provided.}
 }
 \description{
 Given a list of PS2 data, generate Fm', fs, phi2, and fo'
