@@ -11,7 +11,7 @@ ss_addqL <- function(df){
     Fsdat <- fopdat[,which(grepl(colnames(fopdat),pattern = "Fs"))[1]]
     Fodat <- fopdat[,which(grepl(colnames(fopdat),pattern = "Fo"))[1]]
     ql <- ((Fmdat - Fsdat)/(Fmdat - Fodat))*(Fodat / Fsdat)
-    df <- tibble::add_column(df,"qL" = ql)
+    df <- tibble::add_column(df,"qL" = unlist(unname(ql)))
   } else{
     cat("qL already in df\n")
   }

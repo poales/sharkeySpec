@@ -14,8 +14,8 @@ ss_addNPQ <- function(df,fm){
     Fodat <- fopdat[,which(grepl(colnames(fopdat),pattern = "Fo"))[1]]
     npq <- (fm - Fmdat)/Fmdat
     npqt <- (4.88/((Fmdat/Fodat)-1))-1
-    df <- tibble::add_column(df,"NPQ" = npq)
-    df <- tibble::add_column(df,"NPQt" = npqt)
+    df <- tibble::add_column(df,"NPQ" = unlist(unname(npq)))
+    df <- tibble::add_column(df,"NPQt" = unlist(unname(npqt)))
   } else{
     cat("NPQ or NPQt already in df\n")
   }

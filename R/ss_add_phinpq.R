@@ -11,13 +11,13 @@
 
 ss_add_phinpq <- function(df,fm,fo){
 
-  npqtdat <- fopdat[,which(grepl(colnames(fopdat),pattern = "NPQt"))[1]]
-  qldat <- fopdat[,which(grepl(colnames(fopdat),pattern = "qL"))[1]]
+  npqtdat <- df[,which(grepl(colnames(df),pattern = "NPQt"))[1]]
+  qldat <- df[,which(grepl(colnames(df),pattern = "qL"))[1]]
   #phinpq <- 1/(qL * (4.8824)/NPQt+1)
   #npqql <- 1/((4.8824)/NPQt+1)
   phinpq <- 1/(qldat * (fm/fo)/npqtdat+1)
   npqql <- 1/((fm/fo)/npqtdat+1)
-  df <- add_column(df,"PhiNPQ" = phinpq)
-  df <- add_column(df,"NPQ_qL" = npqql)
+  df <- tibble::add_column(df,"PhiNPQ" = unlist(unname(phinpq)))
+  df <- tibble::add_column(df,"NPQ_qL" = unlist(unname(npqql)))
   return(df)
 }
