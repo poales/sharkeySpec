@@ -34,7 +34,7 @@ ss_ecs_fit_all <- function(ecs_list, recalc_delta_a = F, graph = F,linFitCount=5
     velo <- dplyr::bind_rows(lapply(alldat, function(x) c(x[5], x[4], x[2], x[1])))
     velocity <- dplyr::rename(velo, "Velocity" = `vH+`, "Conductivity" = gH)
   }
-  velocity<- velocity[order(velocity$Time),]
+  #velocity<- velocity[order(velocity$Time),]
   if(graph){
     return(list(velocity,allgraphs))
   } else {
