@@ -7,9 +7,9 @@
 
 ss_addqL <- function(df){
   if(!"qL" %in% colnames(df)){
-    Fmdat <- fopdat[,which(grepl(colnames(fopdat),pattern = "Fm"))[1]]
-    Fsdat <- fopdat[,which(grepl(colnames(fopdat),pattern = "Fs"))[1]]
-    Fodat <- fopdat[,which(grepl(colnames(fopdat),pattern = "Fo"))[1]]
+    Fmdat <- df[,which(grepl(colnames(df),pattern = "Fm"))[1]]
+    Fsdat <- df[,which(grepl(colnames(df),pattern = "Fs"))[1]]
+    Fodat <- df[,which(grepl(colnames(df),pattern = "Fo"))[1]]
     ql <- ((Fmdat - Fsdat)/(Fmdat - Fodat))*(Fodat / Fsdat)
     df <- tibble::add_column(df,"qL" = unlist(unname(ql)))
   } else{
