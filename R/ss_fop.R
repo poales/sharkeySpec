@@ -8,7 +8,7 @@
 #' @param flashstartpoint Integer. The data point start of the saturation flash. Default 101
 #' @param flashendpoint Integer. The terminal Fm' point. Default 190
 #' @param terminalpts Integer. The number of points at the end of the trace during which far-red and actinic are both turned off. Default NULL. Only does something if lightterminal is also turned on.
-#' @param lightterminal Integer. The number of points at the end of the trace during with actinic is turned on. Default NULL. Only does something if terminalpts is also provided.
+#' @param lightterminal Integer. The number of points at the end of the trace during with actinic is turned on. Default NULL. Only does something if terminalpts is also provided
 #' @name ss_fop
 #' @export
 
