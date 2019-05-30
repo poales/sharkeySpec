@@ -1,7 +1,7 @@
 #' Vectorized fitting of ECS data.
 #'
 #' Functionally applies ecs_fit for a vectorized set of data
-#' Recommended application: ss_read_all_folder() %>% ss_splitfun() %>% (function(x) x$ecs) %>% ss_ecs_fit_all()
+#' Recommended application: ss_read_all_folder %>% ss_splitfun %>% (function(x) x$ecs) %>% ss_ecs_fit_all
 #' @param ecs_list vector of ecs data to analyze
 #' @param recalc_delta_a Do you wish to recalculate DeltaA? Calls ss_bookkeeping
 #' @param graph Boolean. Recreates the trace with fitting visualized. A list of graphs is returned.

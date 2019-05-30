@@ -34,5 +34,5 @@ ss_ecs_fit_all(ecs_list, recalc_delta_a = F, graph = F,
 }
 \description{
 Functionally applies ecs_fit for a vectorized set of data
-Recommended application: ss_read_all_folder() %>% ss_splitfun() %>% (function(x) x$ecs) %>% ss_ecs_fit_all()
+Recommended application: ss_read_all_folder %>% ss_splitfun %>% (function(x) x$ecs) %>% ss_ecs_fit_all
 }

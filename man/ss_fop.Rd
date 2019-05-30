@@ -20,7 +20,7 @@ ss_fop(ps2_data, graph = F, fsend = 100, flashstartpoint = 101,
 
 \item{terminalpts}{Integer. The number of points at the end of the trace during which far-red and actinic are both turned off. Default NULL. Only does something if lightterminal is also turned on.}
 
-\item{lightterminal}{Integer. The number of points at the end of the trace during with actinic is turned on. Default NULL. Only does something if terminalpts is also provided.}
+\item{lightterminal}{Integer. The number of points at the end of the trace during with actinic is turned on. Default NULL. Only does something if terminalpts is also provided}
 }
 \description{
 Given a list of PS2 data, generate Fm', fs, phi2, and fo'
