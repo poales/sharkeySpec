@@ -13,7 +13,7 @@
 
 
 ss_read_all_folder <- function(location, ecspattern = "0002",ps2pattern="0001",ps1pattern="0003",foppattern="0004"){
-  setwd(location)
+  #setwd(location)
   data.ecs <- ss_readType(location,ecspattern)
   data.ps2 <- ss_readType(location,ps2pattern)
   data.ps1 <- ss_readType(location,ps1pattern)

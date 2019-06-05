@@ -6,6 +6,7 @@
 
 ss_readType <- function(location,pattern){
   file.names <- as.list(dir(location,pattern=pattern))
+  file.names <- lapply(file.names,function(x) paste0(location,"/",x))
   data <- lapply(file.names, ss_read)
   file.names <- trimws(sub(pattern="(.*?)\\.dat(.*)000.*$",replacement = "\\1 \\2",x=file.names))
   names(data) <- file.names
