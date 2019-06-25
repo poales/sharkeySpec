@@ -4,7 +4,7 @@ Version: 0.0.0.9000
 Authors@R: person("Alan", "McClain", email = "mcclai54@MSU.EDU", role = c("aut", "cre"))
 Description: Works up data from the combined fluorescence and gas exchange data of the SharkeySpec. Useful scripts for any IDEA-spec platform. Fits ECS, PS2, PS1 data. To install: library(devtools) install_github("poales/sharkeySpec")
 Depends: R (>= 3.5.2)
-License: What license is it under?
+License: MIT
 Encoding: UTF-8
 Imports: tidyverse
 Suggests: minpack.lm
