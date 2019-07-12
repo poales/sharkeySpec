@@ -4,7 +4,7 @@
 \alias{ss_addNPQ}
 \title{Add NPQ and NPQt to a data frame.}
 \usage{
-ss_addNPQ(df, fm)
+ss_addNPQ(df, fm = NA)
 }
 \arguments{
 \item{df}{A data frame with Fm' and Fo' data.}
