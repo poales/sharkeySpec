@@ -27,7 +27,7 @@ ss_ecs_fit_all <- function(ecs_list, recalc_delta_a = F, graph = F,linFitCount=5
     allgraphs <- lapply(alldat,function(list) list[[2]])
     alldat <- lapply(alldat,function(list) list[[1]])
     for(i in 1:length(allgraphs)){
-      allgraphs[i][[1]] <- allgraphs[i][[1]] + labs(subtitle = paste("Fit number",i))
+      allgraphs[i][[1]] <- allgraphs[i][[1]] + ggplot2::labs(subtitle = paste("Fit number",i))
     }
   }
   if(abs520){
