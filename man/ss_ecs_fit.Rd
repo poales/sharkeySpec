@@ -35,6 +35,10 @@ ss_ecs_fit(dataframe, recalc_delta_a = F, graph = F, linFitCount = 5,
 
 \item{dirkstart}{Integer. The data point count of the last illuminated point.}
 
+\item{highWeightVal}{Integer. The amount to weight high-weight points at the start of the dirk.}
+
+\item{highWeightCount}{Integer. The number of points to weight highly at the start of the dirk.}
+
 \item{dataframe}{Single trace ECS data point.}
 
 \item{recalc_delta_a}{Do you wish to recalculate DeltaA? Calls ss_bookkeeping}

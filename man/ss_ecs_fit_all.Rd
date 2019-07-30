@@ -7,7 +7,7 @@
 ss_ecs_fit_all(ecs_list, recalc_delta_a = F, graph = F,
   linFitCount = 5, nonlinFitCount = 35, remake = F,
   baselineStart = 70, baselineEnd = 99, abs520 = F, linadj = T,
-  dirkstart = 100)
+  dirkstart = 100, highWeightVal = 1, highWeightCount = 15)
 }
 \arguments{
 \item{ecs_list}{vector of ecs data to analyze}
@@ -31,6 +31,10 @@ ss_ecs_fit_all(ecs_list, recalc_delta_a = F, graph = F,
 \item{linadj}{Boolean. Attempts to correct for signal drift by straightening out non-DIRK part of the trace}
 
 \item{dirkstart}{Integer. The last illuminated data point. Default: 100.}
+
+\item{highWeightVal}{Integer. The amount to weight high-weight points at the start of the dirk.}
+
+\item{highWeightCount}{Integer. The number of points to weight highly at the start of the dirk.}
 }
 \description{
 Functionally applies ecs_fit for a vectorized set of data
