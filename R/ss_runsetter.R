@@ -26,8 +26,10 @@ ss_runsetter<- function(df,threshhold=2,aslist = FALSE,column = "Time"){
   TDIFF <- function(df){
     diff <- df[-1,column]-df[-nrow(df),column]
     changes <- which(diff>threshhold | diff<(-1*threshhold))
-    for(i in 1:length(changes)){
-      df$ID[(changes[i]+1):length(df$ID)] <- df$ID[(changes[i]+1):length(df$ID)]+1
+    if(length(changes)>0){
+      for(i in 1:length(changes)){
+        df$ID[(changes[i]+1):length(df$ID)] <- df$ID[(changes[i]+1):length(df$ID)]+1
+      }
     }
     return(df)
   }
