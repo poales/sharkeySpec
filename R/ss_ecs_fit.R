@@ -27,7 +27,7 @@ ss_ecs_fit <- function(dataframe, recalc_delta_a = F, graph=F, linFitCount=5,non
   #require(magrittr)
   require(minpack.lm)
   #bookkeeping: rename the items in the dataframe
-  dataframe <- ss_bookkeeping(dataframe,recalc_delta_a,baselineStart=baselineStart,baselineEnd=baselineEnd)
+  dataframe <- ss_bookkeeping(dataframe,recalc_delta_a = recalc_delta_a,baselineStart=baselineStart,baselineEnd=baselineEnd)
   TheTime <- dataframe$Time[dirkstart]
   a520 <- mean(dataframe$Raw_Voltage[1:(dirkstart-1)])
   #Do a linear regression for the baseline and apply it.
