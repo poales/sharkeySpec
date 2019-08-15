@@ -2,6 +2,7 @@
 #'
 #' Functionally applies ecs_fit for a vectorized set of data
 #' Recommended application: ss_read_all_folder %>% ss_splitfun %>% (function(x) x$ecs) %>% ss_ecs_fit_all
+#'
 #' @param ecs_list vector of ecs data to analyze
 #' @param recalc_delta_a Do you wish to recalculate DeltaA? Calls ss_bookkeeping
 #' @param graph Boolean. Recreates the trace with fitting visualized. A list of graphs is returned.
@@ -13,18 +14,20 @@
 #' @param abs520 Would you like automatic calculation of baseline 520nm absorbance?
 #' @param linadj Boolean. Attempts to correct for signal drift by straightening out non-DIRK part of the trace
 #' @param dirkstart Integer. The last illuminated data point. Default: 100.
+#' @param highWeightVal Integer. The amount to weight high-weight points at the start of the dirk.
+#' @param highWeightCount Integer. The number of points to weight highly at the start of the dirk.
 #' @name ss_ecs_fit_all
 #' @export
 
 
-ss_ecs_fit_all <- function(ecs_list, recalc_delta_a = F, graph = F,linFitCount=5, nonlinFitCount=35,remake=F,baselineStart=70,baselineEnd=99,abs520=F,linadj=T,dirkstart=100){
+ss_ecs_fit_all <- function(ecs_list, recalc_delta_a = F, graph = F,linFitCount=5, nonlinFitCount=35,remake=F,baselineStart=70,baselineEnd=99,abs520=F,linadj=T,dirkstart=100,highWeightVal= 1,highWeightCount=15){
   #ecs_list <- ss_sorter(ecs_list) #just in case they're out of order, we need to sort first. Otherwise the graphs will not match up.
-  alldat <- lapply(ecs_list,function(x) ss_ecs_fit(dataframe=x,recalc_delta_a = recalc_delta_a,graph=graph,linFitCount=linFitCount,nonlinFitCount=nonlinFitCount,remake=remake,baselineStart=baselineStart,baselineEnd=baselineEnd,abs520=abs520,linadj=linadj,dirkstart=dirkstart))
+  alldat <- lapply(ecs_list,function(x) ss_ecs_fit(dataframe=x,recalc_delta_a = recalc_delta_a, graph=graph,linFitCount=linFitCount,nonlinFitCount=nonlinFitCount,remake=remake,baselineStart=baselineStart,baselineEnd=baselineEnd,abs520=abs520,linadj=linadj,dirkstart=dirkstart,highWeightVal=highWeightVal,highWeightCount=highWeightCount))
   if(graph){
     allgraphs <- lapply(alldat,function(list) list[[2]])
     alldat <- lapply(alldat,function(list) list[[1]])
     for(i in 1:length(allgraphs)){
-      allgraphs[i][[1]] <- allgraphs[i][[1]] + labs(subtitle = paste("Fit number",i))
+      allgraphs[i][[1]] <- allgraphs[i][[1]] + ggplot2::labs(subtitle = paste("Fit number",i))
     }
   }
   if(abs520){
