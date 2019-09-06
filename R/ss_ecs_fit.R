@@ -22,9 +22,12 @@
 
 
 
-ss_ecs_fit <- function(dataframe, recalc_delta_a = F, graph=F, linFitCount=5,nonlinFitCount=35, remake=F,baselineStart=50,baselineEnd=99,abs520=F,linadj=T,dirkstart = 100, highWeightVal = 1, highWeightCount = 15){
+ss_ecs_fit <- function(dataframe, recalc_delta_a = F, graph=F, linFitCount=5,nonlinFitCount=35, remake=F,baselineStart=50,baselineEnd=99,abs520=F,linadj=T,dirkstart = 100, highWeightVal = 1, highWeightCount = 15,dirklen=NA,fixTime=T){
   #require(tidyverse)
   #require(magrittr)
+  if(is.na(dirklen)){
+    dirklen <- nonlinFitCount + 30
+  }
   require(minpack.lm)
   #bookkeeping: rename the items in the dataframe
   dataframe <- ss_bookkeeping(dataframe,recalc_delta_a = recalc_delta_a,baselineStart=baselineStart,baselineEnd=baselineEnd)
@@ -34,6 +37,11 @@ ss_ecs_fit <- function(dataframe, recalc_delta_a = F, graph=F, linFitCount=5,non
   #First, set time = 0
   dfbu <- dataframe
   dataframe$Time <- dataframe$Time - dataframe$Time[1]
+  if(fixTime){
+    tEa <- (dataframe$Time[nrow(dataframe)] - dataframe$Time[1]) / nrow(dataframe)
+    newTime <- 1:(nrow(dataframe)) * tEa
+    dataframe$Time <- newTime
+  }
   if(linadj){
     dat.y <- dataframe$DeltaA[baselineStart:baselineEnd]
     dat.x <- dataframe$Time[baselineStart:baselineEnd]
@@ -51,7 +59,7 @@ ss_ecs_fit <- function(dataframe, recalc_delta_a = F, graph=F, linFitCount=5,non
     postmovements <- dataframe
   }
   #clip middle
-  dat.mid <- dataframe[dirkstart:(dirkstart+nonlinFitCount+30),]
+  dat.mid <- dataframe[dirkstart:(dirkstart+dirklen),]
   #reset time to zero.  This is really important since we have no time offset.
   dat.mid$Time <- dat.mid$Time - dat.mid$Time[1]
   diff <- mean(dataframe$DeltaA[(dirkstart-20):dirkstart])
@@ -66,13 +74,19 @@ ss_ecs_fit <- function(dataframe, recalc_delta_a = F, graph=F, linFitCount=5,non
   pmfguess <- diff
   #fit 1: used to fit PMF + cond
   coefs <- tryCatch({
-    coef(nlsLM(y.dat.nl ~ principal * exp(x.dat.nl * -1 * rate) + constant,start=c(principal=pmfguess,rate=3, constant = diff),upper=(c(1,10000,.3)),lower=c(-1,0,-.3),control=nls.lm.control(maxiter=1000),trace = F,weights=c(1000000,rep(highWeightVal, highWeightCount),rep(1,nonlinFitCount-1-highWeightCount))))
-
+    #do one fit for PMF
+    m1 <- nlsLM(data=dat.mid,DeltaA ~ principal * exp(Time * -1 * rate) + constant,start=c(principal=pmfguess,rate=3, constant = diff),upper=(c(1,10000,.3)),lower=c(-1,0,-.3),control=nls.lm.control(maxiter=1000),trace = F,weights=c(100000,rep(1,nrow(dat.mid)-1)))
+    PMF <- coef(m1)['principal']
+    #PMF <- coef(nlsLM(data=dat.mid,DeltaA ~ principal * exp(Time * -1 * rate) + constant,start=c(principal=pmfguess,rate=3, constant = diff),upper=(c(1,10000,.3)),lower=c(-1,0,-.3),control=nls.lm.control(maxiter=1000),trace = F,weights=c(1000000,rep(1,nrow(dat.mid)-1))))$principal
+    #do a second fit for cond
+    m2 <- nlsLM(y.dat.nl ~ PMF * exp(x.dat.nl * -1 * rate) + constant,start=c(rate=3, constant = diff),upper=(c(10000,.3)),lower=c(0,-.3),control=nls.lm.control(maxiter=1000),trace = F,weights=c(highWeightVal,rep(highWeightVal, highWeightCount),rep(1,nonlinFitCount-1-highWeightCount)))
+    c(PMF,coef(m2))
+    
   }, error = function(e){
     print("There was an error: The nonlinear fit failed. Make sure you are sending the right points, and that DeltaA has been calculated correctly (try ss_bookkeeping(recalc_delta_a=T)")
     print(e)
     error_fit <- c(0,0,0)
-    return(error_fit)
+    error_fit
   }
   )
   #do a second fit, a linear fit to get the velocity.
