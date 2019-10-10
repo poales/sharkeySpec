@@ -22,7 +22,7 @@
 
 
 
-ss_ecs_fit <- function(dataframe, recalc_delta_a = F, graph=F, linFitCount=5,nonlinFitCount=35, remake=F,baselineStart=50,baselineEnd=99,abs520=F,linadj=T,dirkstart = 100, highWeightVal = 1, highWeightCount = 15,dirklen=NA,fixTime=T){
+ss_ecs_fit <- function(dataframe, recalc_delta_a = F, graph=F, linFitCount=5,nonlinFitCount=35, remake=F,baselineStart=50,baselineEnd=99,abs520=F,linadj=T,dirkstart = 100, highWeightVal = 10000, highWeightCount = 0,dirklen=NA,fixTime=T){
   #require(tidyverse)
   #require(magrittr)
   if(is.na(dirklen)){
