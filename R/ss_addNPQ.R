@@ -13,7 +13,7 @@ ss_addNPQ <- function(df,fm=NA){
     Fodat <- dplyr::select(df,dplyr::contains("Fo"))
     Fsdat <- dplyr::select(df,dplyr::contains("Fs"))
     Fmdat <- dplyr::select(df,dplyr::contains("Fm"))
-    if(length(Fsdat) == 0 | length(Fodat) == 0){
+    if(length(Fsdat) == 0 | length(Fmdat) == 0){
       test <- FALSE
       cat("Cannot find Fs or Fm in df\n")
     }
